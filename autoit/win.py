@@ -678,3 +678,25 @@ def win_wait_not_active_by_handle(handle, timeout):
     """
     ret = AUTO_IT.AU3_WinWaitNotActiveByHandle(HWND(handle), INT(timeout))
     return ret
+def win_get_file_field_text(title, **kwargs):
+    """
+    Retrieves the text from the file field in a window.
+    :param title: The title of the window containing the file field.
+    :param kwargs:
+    :return: The text from the file field.
+    """
+    text = kwargs.get("text", "")
+    ret_text = create_unicode_buffer(256)  # You can adjust the buffer size as needed
+    AUTO_IT.AU3_ControlGetText(LPCWSTR(title), LPCWSTR(text), LPCWSTR("Edit1"), ret_text,
+                               256)  # Assuming "Edit1" is the control ID of the file field
+    val = ret_text.value.rstrip()
+    return val
+def win_clear_edit(title, **kwargs):
+    """
+    Clears the text in an edit control field.
+    :param title: The title of the window containing the edit control.
+    :param kwargs:
+    :return: None
+    """
+    text = kwargs.get("text", "")
+    AUTO_IT.AU3_ControlSetText(LPCWSTR(title), LPCWSTR(text), LPCWSTR("Edit1"), LPCWSTR(""))
